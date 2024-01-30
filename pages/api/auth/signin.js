@@ -16,7 +16,7 @@ const signIn = async (req, res) => {
       return res.status(422).json({ message: "data is not valid!!!" });
     }
 
-    const user = userModel.findOne({
+    const user = await userModel.findOne({
       $or: [{ username: identifier }, { password: identifier }],
     });
 
