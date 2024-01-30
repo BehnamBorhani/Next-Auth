@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -19,13 +19,13 @@ function Index() {
     resolver: yupResolver(schema),
   });
 
-  /* useEffect(() => {
+  useEffect(() => {
     fetch("/api/auth/me").then((res) => {
       if (res.status === 200) {
         router.replace("/todos");
       }
     });
-  }, []); */
+  }, []);
 
   const signIn = async (data) => {
     const res = await fetch("/api/auth/signin", {

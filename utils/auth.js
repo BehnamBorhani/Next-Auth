@@ -15,9 +15,14 @@ const generateToken = (data) => {
   return token;
 };
 
-const verifyPassword = (password, hashedPassword) => {
+const verifyPassword = async (password, hashedPassword) => {
+  const isValid = await compare(password, hashedPassword);
+  return isValid;
+};
+
+const verifyToken = (token) => {
   try {
-    const validationResult = compare(password, hashedPassword);
+    const validationResult = verify(token, process.env.PRIVATE_KEY);
     return validationResult;
   } catch (error) {
     console.log("verify token error => ", error);
@@ -25,4 +30,4 @@ const verifyPassword = (password, hashedPassword) => {
   }
 };
 
-export { hashPassword, generateToken, verifyPassword };
+export { hashPassword, generateToken, verifyPassword, verifyToken };

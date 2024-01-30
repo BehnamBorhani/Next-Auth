@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { useRouter } from "next/router";
 
 function Index() {
-  const router = useRouter()
+  const router = useRouter();
 
   const schema = yup.object({
     firstname: yup.string().required(),
@@ -38,7 +38,7 @@ function Index() {
       .then((res) => {
         console.log(res);
         reset();
-        router.replace("/login")
+        router.replace("/login");
       })
       .catch((err) => console.log(err));
   };
