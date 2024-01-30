@@ -1,5 +1,6 @@
 import connectToDB from "@/configs/db";
 import userModel from "@/models/user";
+import { hashPassword } from "@/utils/auth";
 
 const signUp = async (req, res) => {
   if (req.method !== "POST") {
@@ -19,13 +20,25 @@ const signUp = async (req, res) => {
       return res.status(422).json({ message: "data is not valid!!!" });
     }
 
+    const isUserExist = await userModel.findOne({
+      $or: [{ username }, { email }],
+    });
+
+    if (isUserExist) {
+      return res
+        .status(422)
+        .json({ message: "this username or email is already exist!" });
+    }
+
+    const hashedPassword = await hashPassword(password);
+
     const users = await userModel.find({});
     const newUser = await userModel.create({
       firstname,
       lastname,
       username,
       email,
-      password,
+      password: hashedPassword,
       role: users.length > 0 ? "USER" : "ADMIN",
     });
 
