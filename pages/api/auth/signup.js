@@ -1,6 +1,7 @@
 import connectToDB from "@/configs/db";
 import userModel from "@/models/user";
-import { hashPassword } from "@/utils/auth";
+import { generateToken, hashPassword } from "@/utils/auth";
+import { serialize } from "cookie";
 
 const signUp = async (req, res) => {
   if (req.method !== "POST") {
@@ -31,6 +32,7 @@ const signUp = async (req, res) => {
     }
 
     const hashedPassword = await hashPassword(password);
+    const token = generateToken({ email });
 
     const users = await userModel.find({});
     const newUser = await userModel.create({
@@ -43,6 +45,14 @@ const signUp = async (req, res) => {
     });
 
     return res
+      .setHeader(
+        "Set-Cookie",
+        serialize("token", token, {
+          httpOnly: true,
+          path: "/",
+          maxAge: 60 * 60 * 24 * 7, // 7 days
+        })
+      )
       .status(201)
       .json({ message: "user signup successfully :)", user: newUser });
   } catch (error) {
