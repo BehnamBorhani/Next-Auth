@@ -1,8 +1,7 @@
 import connectToDB from "@/configs/db";
 import userModel from "@/models/user";
 import otpModel from "@/models/otp";
-import { generateToken, hashPassword } from "@/utils/auth";
-import { serialize } from "cookie";
+import { hashPassword } from "@/utils/auth";
 import request from "request";
 
 const signUp = async (req, res) => {
@@ -52,8 +51,6 @@ const signUp = async (req, res) => {
         json: true,
       },
       async function (error, response, body) {
-        console.log(req.body);
-
         if (!error && response.statusCode === 200) {
           //YOU‌ CAN‌ CHECK‌ THE‌ RESPONSE‌ AND SEE‌ ERROR‌ OR‌ SUCCESS‌ MESSAGE
 

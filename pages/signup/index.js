@@ -49,7 +49,6 @@ function Index() {
 
   const verifyCode = async (event) => {
     event.preventDefault();
-    console.log(getValues("phone"));
 
     const res = await fetch("/api/auth/verify", {
       method: "POST",
@@ -77,7 +76,7 @@ function Index() {
         icon: "success",
         buttons: "Go to dashboard",
       }).then(() => {
-        router.replace("/dashboard");
+        router.replace("/todos");
       });
     }
   };
@@ -86,7 +85,7 @@ function Index() {
     <div className="box">
       <h1 align="center">SignUp Form</h1>
       {isCodeSent ? (
-        <form role="form" method="post" onSubmit={handleSubmit(verifyCode)}>
+        <form role="form" method="post">
           <div className="inputBox">
             <input
               type="text"

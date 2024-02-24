@@ -10,7 +10,7 @@ const todoSchema = mongoose.Schema({
     type: Boolean,
     required: true,
   },
-  title: {
+  user: {
     type: mongoose.Types.ObjectId,
     ref: "User",
     required: true,
