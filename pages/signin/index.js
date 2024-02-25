@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import swal from "sweetalert";
 
 function Index() {
   const router = useRouter();
@@ -22,7 +23,7 @@ function Index() {
   useEffect(() => {
     fetch("/api/auth/me").then((res) => {
       if (res.status === 200) {
-        router.replace("/todos");
+        router.replace("/");
       }
     });
   }, []);
@@ -38,8 +39,13 @@ function Index() {
 
     if (res.status === 200) {
       reset();
-      alert("Logged In Successfully :))");
-      router.replace("/todos");
+      swal({
+        title: "Logged In Successfully :))",
+        icon: "success",
+        buttons: "ok",
+        timer: 2000,
+      });
+      router.replace("/");
     } else if (res.status === 404) {
       alert("User Not Found :))");
     } else if (res.status === 422) {

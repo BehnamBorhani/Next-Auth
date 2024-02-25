@@ -76,7 +76,7 @@ function Index() {
         icon: "success",
         buttons: "Go to dashboard",
       }).then(() => {
-        router.replace("/todos");
+        router.replace("/");
       });
     }
   };

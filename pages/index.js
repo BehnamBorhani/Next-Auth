@@ -41,6 +41,19 @@ function Todolist({ user, todos }) {
     }
   };
 
+  const removeTodo = async (id) => {
+    const res = await fetch(`/api/todo/${id}`, { method: "Delete" });
+    if (res.status === 200) {
+      getTodos();
+      swal({
+        title: "Todo removed successfully!",
+        icon: "success",
+        buttons: "ok",
+        timer: 2000,
+      });
+    }
+  };
+
   return (
     <>
       <h1>Next-Todos</h1>
@@ -73,7 +86,7 @@ function Todolist({ user, todos }) {
               {user.firstname} {user.lastname}
             </p>
           </div>
-          <div className="add" onClick={() => setIsShowInput(true)}>
+          <div className="add" onClick={() => setIsShowInput(!isShowInput)}>
             <svg
               width="2rem"
               height="2rem"
@@ -106,7 +119,10 @@ function Todolist({ user, todos }) {
                     <p>{todo.title}</p>
                   </div>
                   <span className="delete">
-                    <FontAwesomeIcon icon={faTrash} />
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      onClick={() => removeTodo(todo._id)}
+                    />
                   </span>
                 </li>
               ))}
