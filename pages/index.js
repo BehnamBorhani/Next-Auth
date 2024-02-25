@@ -9,11 +9,13 @@ import connectToDB from "@/configs/db";
 import TodoModel from "@/models/todo";
 import UserModel from "@/models/user";
 import { verifyToken } from "@/utils/auth";
+import { useRouter } from "next/router";
 
 function Todolist({ user, todos }) {
   const [isShowInput, setIsShowInput] = useState(false);
   const [title, setTitle] = useState("");
   const [allTodos, setAllTodos] = useState([...todos]);
+  const router = useRouter();
 
   const getTodos = async () => {
     const res = await fetch("/api/todo");
@@ -51,6 +53,19 @@ function Todolist({ user, todos }) {
         buttons: "ok",
         timer: 2000,
       });
+    }
+  };
+
+  const logout = async () => {
+    const res = await fetch("/api/auth/signout");
+    if (res.status === 200) {
+      swal({
+        title: "User logged out successfully!",
+        icon: "success",
+        buttons: "ok",
+        timer: 2000,
+      });
+      router.replace("/signin");
     }
   };
 
@@ -103,7 +118,7 @@ function Todolist({ user, todos }) {
               />
             </svg>
           </div>
-          <div className="time">
+          <div className="time" onClick={logout}>
             <a href="#">Logout</a>
           </div>
         </div>

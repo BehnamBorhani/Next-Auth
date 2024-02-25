@@ -508,3 +508,7 @@ button a {
   display: block;
 }
 /* Other */
+
+.swal-footer {
+  text-align: center;
+}

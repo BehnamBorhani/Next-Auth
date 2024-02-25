@@ -17,7 +17,7 @@ const signIn = async (req, res) => {
     }
 
     const user = await UserModel.findOne({
-      $or: [{ username: identifier }, { password: identifier }],
+      $or: [{ username: identifier }, { email: identifier }],
     });
 
     if (!user) {
