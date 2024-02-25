@@ -13,6 +13,13 @@ import { verifyToken } from "@/utils/auth";
 function Todolist({ user, todos }) {
   const [isShowInput, setIsShowInput] = useState(false);
   const [title, setTitle] = useState("");
+  const [allTodos, setAllTodos] = useState([...todos]);
+
+  const getTodos = async () => {
+    const res = await fetch("/api/todo");
+    const data = await res.json();
+    setAllTodos(data);
+  };
 
   const addTodo = async () => {
     const res = await fetch(`/api/todo`, {
@@ -30,6 +37,7 @@ function Todolist({ user, todos }) {
         icon: "success",
         timer: 1000,
       });
+      getTodos();
     }
   };
 
@@ -61,7 +69,9 @@ function Todolist({ user, todos }) {
         </div>
         <div className="head">
           <div className="date">
-            <p>{`user.name`}</p>
+            <p>
+              {user.firstname} {user.lastname}
+            </p>
           </div>
           <div className="add" onClick={() => setIsShowInput(true)}>
             <svg
@@ -87,17 +97,19 @@ function Todolist({ user, todos }) {
         <div className="pad">
           <div id="todo">
             <ul id="tasksContainer">
-              <li>
-                <span className="mark">
-                  <input type="checkbox" className="checkbox" />
-                </span>
-                <div className="list">
-                  <p>{`Todo.title`}</p>
-                </div>
-                <span className="delete">
-                  <FontAwesomeIcon icon={faTrash} />
-                </span>
-              </li>
+              {allTodos.map((todo) => (
+                <li key={todo._id}>
+                  <span className="mark">
+                    <input type="checkbox" className="checkbox" />
+                  </span>
+                  <div className="list">
+                    <p>{todo.title}</p>
+                  </div>
+                  <span className="delete">
+                    <FontAwesomeIcon icon={faTrash} />
+                  </span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
