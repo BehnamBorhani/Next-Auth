@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import userModel from "./user";
+import UserModel from "./user";
 
 const todoSchema = mongoose.Schema({
   title: {
@@ -17,6 +17,6 @@ const todoSchema = mongoose.Schema({
   },
 });
 
-const todoModel = mongoose.models.Todo || mongoose.model("Todo", todoSchema);
+const TodoModel = mongoose.models.Todo || mongoose.model("Todo", todoSchema);
 
-export default todoModel;
+export default TodoModel;

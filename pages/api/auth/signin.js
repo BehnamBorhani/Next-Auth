@@ -1,4 +1,4 @@
-import userModel from "@/models/user";
+import UserModel from "@/models/user";
 import { generateToken, verifyPassword } from "@/utils/auth";
 import { serialize } from "cookie";
 
@@ -16,7 +16,7 @@ const signIn = async (req, res) => {
       return res.status(422).json({ message: "data is not valid!!!" });
     }
 
-    const user = await userModel.findOne({
+    const user = await UserModel.findOne({
       $or: [{ username: identifier }, { password: identifier }],
     });
 

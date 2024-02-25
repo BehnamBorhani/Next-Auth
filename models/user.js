@@ -34,6 +34,6 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const userModel = mongoose.models.User || mongoose.model("User", userSchema);
+const UserModel = mongoose.models.User || mongoose.model("User", userSchema);
 
-export default userModel;
+export default UserModel;

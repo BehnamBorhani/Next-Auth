@@ -1,5 +1,5 @@
-import otpModel from "@/models/otp";
-import userModel from "@/models/user";
+import OtpModel from "@/models/otp";
+import UserModel from "@/models/user";
 import { generateToken } from "@/utils/auth";
 import { serialize } from "cookie";
 
@@ -11,7 +11,7 @@ const handler = async (req, res) => {
   const { phone: phoneNumber, code } = req.body;
 
   const { expTime, firstname, lastname, username, email, phone, password } =
-    await otpModel.findOne(
+    await OtpModel.findOne(
       { phone: phoneNumber, code },
       "-_id -code -createdAt -updatedAt -__v"
     );
@@ -21,8 +21,8 @@ const handler = async (req, res) => {
     const now = date.getTime(); // 8 - 10 || 12 - 10
 
     if (expTime > now) {
-      const users = await userModel.find({});
-      const newUser = await userModel.create({
+      const users = await UserModel.find({});
+      const newUser = await UserModel.create({
         firstname,
         lastname,
         username,
@@ -32,7 +32,7 @@ const handler = async (req, res) => {
         role: users.length > 0 ? "USER" : "ADMIN",
       });
 
-      await otpModel.findOneAndDelete({ phone: phoneNumber, code });
+      await OtpModel.findOneAndDelete({ phone: phoneNumber, code });
 
       const token = generateToken({ email });
 

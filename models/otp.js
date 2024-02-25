@@ -38,6 +38,6 @@ const schema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const otpModel = mongoose.models.Otp || mongoose.model("Otp", schema);
+const OtpModel = mongoose.models.Otp || mongoose.model("Otp", schema);
 
-module.exports = otpModel;
+module.exports = OtpModel;

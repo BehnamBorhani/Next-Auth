@@ -1,6 +1,6 @@
 import connectToDB from "@/configs/db";
-import userModel from "@/models/user";
-import otpModel from "@/models/otp";
+import UserModel from "@/models/user";
+import OtpModel from "@/models/otp";
 import { hashPassword } from "@/utils/auth";
 import request from "request";
 
@@ -22,7 +22,7 @@ const signUp = async (req, res) => {
       return res.status(422).json({ message: "data is not valid!!!" });
     }
 
-    const isUserExist = await userModel.findOne({
+    const isUserExist = await UserModel.findOne({
       $or: [{ username }, { email }],
     });
 
@@ -54,7 +54,7 @@ const signUp = async (req, res) => {
         if (!error && response.statusCode === 200) {
           //YOU‌ CAN‌ CHECK‌ THE‌ RESPONSE‌ AND SEE‌ ERROR‌ OR‌ SUCCESS‌ MESSAGE
 
-          await otpModel.create({
+          await OtpModel.create({
             firstname,
             lastname,
             username,

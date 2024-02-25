@@ -1,5 +1,5 @@
 import connectToDB from "@/configs/db";
-import userModel from "@/models/user";
+import UserModel from "@/models/user";
 import { verifyToken } from "@/utils/auth";
 
 const me = async (req, res) => {
@@ -19,7 +19,7 @@ const me = async (req, res) => {
       return res.status(401).json({ message: "You are not login !!" });
     }
 
-    const user = await userModel.findOne(
+    const user = await UserModel.findOne(
       { email: tokenPayload.email },
       "firstname lastname email role"
     );
