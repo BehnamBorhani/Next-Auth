@@ -5,8 +5,12 @@ config.autoAddCss = false;
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import swal from "sweetalert";
+import connectToDB from "@/configs/db";
+import TodoModel from "@/models/todo";
+import UserModel from "@/models/user";
+import { verifyToken } from "@/utils/auth";
 
-function Todolist() {
+function Todolist({ user, todos }) {
   const [isShowInput, setIsShowInput] = useState(false);
   const [title, setTitle] = useState("");
 
@@ -100,6 +104,40 @@ function Todolist() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  connectToDB();
+  const { token } = context.req.cookies;
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/signin",
+      },
+    };
+  }
+
+  const tokenPayload = verifyToken(token);
+  if (!tokenPayload) {
+    return {
+      redirect: {
+        destination: "/signin",
+      },
+    };
+  }
+
+  const user = await UserModel.findOne(
+    { email: tokenPayload.email },
+    "firstname lastname"
+  );
+  const todos = await TodoModel.find({ user: user._id });
+
+  return {
+    props: {
+      user: JSON.parse(JSON.stringify(user)),
+      todos: JSON.parse(JSON.stringify(todos)),
+    },
+  };
 }
 
 export default Todolist;
